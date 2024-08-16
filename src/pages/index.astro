@@ -1,12 +1,12 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 import fanarts from "../data/data.json";
 
 interface Fanart {
-	title: string;
-	url: string;
-	imgUrl: string;
+  title: string;
+  url: string;
+  imgUrl: string;
 }
 
 const shuffleArray = (array: Fanart[]) => {
@@ -20,52 +20,57 @@ const shuffleArray = (array: Fanart[]) => {
   return cloneArray;
 };
 
-const shuffledFanarts = shuffleArray(fanarts);
 const columns: Fanart[][] = [[], [], [], []];
+
+const shuffledFanarts = shuffleArray(fanarts);
 shuffledFanarts.forEach((fanart, index) => {
-    columns[index % 4].push(fanart);
+  columns[index % 4].push(fanart);
 });
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		<h1>一番星はてのファンアートギャラリー</h1>
-		<div class="row">
-			{columns.map((column, columnIndex) => (
-				<div class="column" id={`column${columnIndex + 1}`}>
-					{column.map((fanart) => (<Card title={fanart.title} url={fanart.url} imgUrl={fanart.imgUrl} />))}
-				</div>
-			))}
-		</div>
-	</main>
+<Layout title="一番星はてのファンアートギャラリー">
+  <main>
+    <h1>一番星はてのファンアートギャラリー</h1>
+    <div class="row">
+      {
+        columns.map((column, columnIndex) => (
+          <div class="column" id={`column${columnIndex + 1}`}>
+            {column.map(fanart => (
+              <Card title={fanart.title} url={fanart.url} imgUrl={fanart.imgUrl} />
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </main>
 </Layout>
 
 <style>
-h1 {
-	color: #fff;
-}
+  h1 {
+    color: #fff;
+  }
 
-.row {
-	display: flex;
-	gap: 4px;
-}
+  .row {
+    display: flex;
+    gap: 4px;
+  }
 
-/* Create four equal columns that sits next to each other */
-.column {
-	flex: 25%;
-	max-width: 25%;
-	padding: 0 4px;
-}
+  /* Create four equal columns that sits next to each other */
+  .column {
+    flex: 25%;
+    max-width: 25%;
+    padding: 0 4px;
+  }
 
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-	.row {
-		flex-wrap: wrap;
-	}
-	.column {
-		-ms-flex: 100%;
-		flex: 100%;
-		max-width: 100%;
-	}
-}
+  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .row {
+      flex-wrap: wrap;
+    }
+    .column {
+      -ms-flex: 100%;
+      flex: 100%;
+      max-width: 100%;
+    }
+  }
 </style>
