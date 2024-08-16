@@ -1,61 +1,57 @@
 ---
 interface Props {
 	title: string;
-	body: string;
-	href: string;
+	url: string;
+	imgUrl: string;
 }
 
-const { href, title, body } = Astro.props;
+const { title, url, imgUrl } = Astro.props;
 ---
+<a href={url} target="_blank" rel="noopener noreferrer" title={title}>
+	<img src={imgUrl} alt={title} />
+	<div class="cite-box">
+		<cite>{title}</cite>
+	</div>
+</a>
 
-<li class="link-card">
-	<a href={href}>
-		<h2>
-			{title}
-			<span>&rarr;</span>
-		</h2>
-		<p>
-			{body}
-		</p>
-	</a>
-</li>
 <style>
-	.link-card {
-		list-style: none;
-		display: flex;
-		padding: 1px;
-		background-color: #23262d;
-		background-image: none;
-		background-size: 400%;
-		border-radius: 7px;
-		background-position: 100%;
-		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-	}
-	.link-card > a {
-		width: 100%;
-		text-decoration: none;
-		line-height: 1.4;
-		padding: calc(1.5rem - 1px);
-		border-radius: 8px;
-		color: white;
-		background-color: #23262d;
-		opacity: 0.8;
-	}
-	h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	p {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-	}
-	.link-card:is(:hover, :focus-within) {
-		background-position: 0;
-		background-image: var(--accent-gradient);
-	}
-	.link-card:is(:hover, :focus-within) h2 {
-		color: rgb(var(--accent-light));
-	}
+a {
+	display: block;
+	overflow: hidden;
+	position: relative;
+	text-decoration: none;
+	margin-top: 8px;
+}
+
+a img {
+	vertical-align: middle;
+	width: 100%;
+	overflow: hidden;
+	z-index: 1;
+	position: relative;
+}
+
+a img:hover {
+	transform: scale(1.1); /* 画像を現在の大きさの1.2倍に拡大する */
+	transform-origin: center; /* 拡大の基準点を画像の中心に設定する */
+	transition: transform 0.2s ease-in-out; /* 拡大アニメーションの時間と動きを指定する */
+}
+
+a .cite-box {
+	background-color: #eee;
+	padding: 8px;
+	position: relative;
+	z-index: 10;
+}
+
+a cite {
+	color: #333;
+	font-size: 12px;
+	line-height: 1.4;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 </style>
